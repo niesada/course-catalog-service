@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: course-catalog-service
+message: Hello from default profile
+
+#---
+#spring:
+#  config:
+#    activate:
+#      on-profile: prod
+#message: Hello form prod profile
