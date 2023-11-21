@@ -22,7 +22,8 @@ class GreetingControllerIntgTest{
 
         val name = "Dilip"
 
-        val result = webTestClient.get()
+        val result = webTestClient
+            .get()
             .uri("/v1/greetings/{name}", name)
             .exchange()
             .expectStatus().is2xxSuccessful

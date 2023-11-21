@@ -29,7 +29,8 @@ class GreetingControllerUnitTest {
 
         every { greetingServiceMock.retrieveGreeting(any()) } returns  "$name, Hello from default profile"
 
-        val result =webTestClient.get()
+        val result =webTestClient
+            .get()
             .uri("/v1/greetings/{name}", name)
             .exchange()
             .expectStatus().is2xxSuccessful
