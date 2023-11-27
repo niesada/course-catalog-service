@@ -13,7 +13,7 @@ class CourseService(val courseRepository: CourseRepository) {
 
     companion object : KLogging()
 
-    fun addCourse(courseDTO: CourseDTO) : CourseDTO{
+    fun addCourse(courseDTO: CourseDTO): CourseDTO {
         val courseEntiry = courseDTO.let {
             Course(null, it.name, it.category)
         }
@@ -26,9 +26,13 @@ class CourseService(val courseRepository: CourseRepository) {
         }
     }
 
-    fun retrieveAllCourses(): List<CourseDTO> {
+    fun retrieveAllCourses(courseName: String?): List<CourseDTO> {
 
-        return courseRepository.findAll()
+        val courses = courseName?.let {
+            courseRepository.findCoursesbyName(courseName)
+        } ?: courseRepository.findAll()
+
+        return courses
             .map {
                 CourseDTO(it.id, it.name, it.category)
             }
@@ -37,7 +41,7 @@ class CourseService(val courseRepository: CourseRepository) {
     fun updateCourse(courseId: Int, courseDTO: CourseDTO): CourseDTO {
 
         val existingCourse = courseRepository.findById(courseId)
-        return if(existingCourse.isPresent){
+        return if (existingCourse.isPresent) {
             existingCourse.get()
                 .let {
                     it.name = courseDTO.name
@@ -45,7 +49,7 @@ class CourseService(val courseRepository: CourseRepository) {
                     courseRepository.save(it)
                     CourseDTO(it.id, it.name, it.category)
                 }
-        }else{
+        } else {
             throw CourseNotFoundException("No course found for the passed in Id: $courseId")
         }
     }
@@ -53,12 +57,12 @@ class CourseService(val courseRepository: CourseRepository) {
     fun deleteCourse(courseId: Int) {
 
         val existingCourse = courseRepository.findById(courseId)
-        if(existingCourse.isPresent){
+        if (existingCourse.isPresent) {
             existingCourse.get()
                 .let {
                     courseRepository.deleteById(courseId)
                 }
-        }else{
+        } else {
             throw CourseNotFoundException("No course found for the passed in Id: $courseId")
         }
     }
