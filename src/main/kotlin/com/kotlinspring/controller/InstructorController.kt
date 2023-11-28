@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/v1/instructors")
 //@Validated
-class InstructorController(val instructorService: InstructorService<Any?>) {
+class InstructorController(val instructorService: InstructorService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
